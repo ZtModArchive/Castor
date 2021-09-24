@@ -1,7 +1,6 @@
 ﻿using Castor.Interfaces;
 using Castor.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Castor
 {
