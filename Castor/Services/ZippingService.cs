@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Castor.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Castor3.Interfaces
+namespace Castor.Services
 {
-    interface IZippingService
+    class ZippingService : IZippingService
     {
     }
 }

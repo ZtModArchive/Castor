@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Castor3.Interfaces
+namespace Castor.Interfaces
 {
-    interface ICommandService
+    interface IZippingService
     {
-        void ShowHelp();
     }
 }

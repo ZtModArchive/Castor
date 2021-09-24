@@ -3,6 +3,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon>castor-icon.ico</ApplicationIcon>
+    <Company>ZtModArchive</Company>
+    <Copyright>MIT License</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

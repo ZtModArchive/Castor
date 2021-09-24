@@ -1,9 +1,9 @@
-﻿using Castor3.Interfaces;
-using Castor3.Services;
+﻿using Castor.Interfaces;
+using Castor.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Castor3
+namespace Castor
 {
     class Program
     {

@@ -1,7 +1,7 @@
-﻿using Castor3.Interfaces;
+﻿using Castor.Interfaces;
 using System;
 
-namespace Castor3
+namespace Castor
 {
     internal class CastorApp
     {
@@ -19,56 +19,31 @@ namespace Castor3
                 {
                     case "build":
                     case "b":
-                        Build();
+                        _commandService.Build(args);
                         break;
                     case "init":
-                        Init();
+                        _commandService.Init(args);
                         break;
                     case "install":
                     case "i":
-                        Install();
+                        _commandService.Install(args);
                         break;
                     case "version":
                     case "v":
-                        Version();
+                        _commandService.Version();
                         break;
                     case "help":
                     case "h":
                     default:
-                        Help();
+                        _commandService.Help();
                         break;
                 }
             }
             else
             {
-                Help();
+                _commandService.Help();
             }
             Environment.Exit(0);
-        }
-
-        void Build()
-        {
-
-        }
-
-        void Init()
-        {
-
-        }
-
-        void Install()
-        {
-
-        }
-
-        void Version()
-        {
-
-        }
-
-        void Help()
-        {
-            _commandService.ShowHelp();
         }
     }
 }
