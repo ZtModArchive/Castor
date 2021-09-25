@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Castor.Services
@@ -97,6 +98,9 @@ namespace Castor.Services
             CastorConfig newConfig = new()
             {
                 ArchiveName = archiveName,
+                Version = "v0.0.1",
+                License = "unspecified",
+                Description = "This is a Zoo Tycoon 2 mod",
                 Z2f = true,
                 IncludeFolders = new List<string> {
                     "ai",
@@ -120,7 +124,11 @@ namespace Castor.Services
                     "xpinfo"
                 },
                 ExcludeFolders = new List<string> {
-                    "scripts/modules"
+                    "modules"
+                },
+                Dependencies = new List<string>
+                {
+
                 },
                 DevDependencies = new List<string>
                 {
@@ -132,7 +140,26 @@ namespace Castor.Services
             File.WriteAllText("castor.json", newJson);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("initialized a new castor project");
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ResetColor();
+
+            if (!File.Exists(".gitignore"))
+            {
+                Console.WriteLine("generating gitignore file");
+                using (var gitignore = File.Create(".gitignore")){ }
+
+                File.WriteAllText(
+                    ".gitignore",
+                    "# exclude file types\n*.zip\n*.z2f\n\n# exclude modules\nmodules/"
+                );
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("created gitignore file");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("gitignore already exists");
+            }
 
             Console.WriteLine("check out castor.json and configure it as you need. Happy coding! :)");
         }

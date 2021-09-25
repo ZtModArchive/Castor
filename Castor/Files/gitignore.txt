@@ -1,6 +1,0 @@
-﻿# exclude file types
-*.zip
-*.z2f
-
-# exclude modules
-scripts/modules/
