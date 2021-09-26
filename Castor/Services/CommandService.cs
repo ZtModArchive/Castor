@@ -12,9 +12,13 @@ namespace Castor.Services
 {
     class CommandService : ICommandService
     {
+        private static IFileService _fileService;
+        private static IInstallerService _installerService;
         private static IZippingService _zippingService;
-        public CommandService(IZippingService zippingService)
+        public CommandService(IFileService fileService, IInstallerService installerService, IZippingService zippingService)
         {
+            _fileService = fileService;
+            _installerService = installerService;
             _zippingService = zippingService;
         }
 
@@ -36,28 +40,26 @@ namespace Castor.Services
 
             Console.WriteLine("Building Zoo Tycoon 2 mod...");
             File.Create(archiveName).Close();
-            using (FileStream zipToOpen = new FileStream(archiveName, FileMode.Open))
+            using (FileStream zipToOpen = new(archiveName, FileMode.Open))
             {
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Update);
+                foreach (var folder in castorConfig.IncludeFolders)
                 {
-                    foreach (var folder in castorConfig.IncludeFolders)
+                    if (!Directory.Exists(folder))
                     {
-                        if (!Directory.Exists(folder))
-                        {
-                            continue;
-                        }
-
-                        DirectoryInfo directory = new DirectoryInfo(folder);
-                        _zippingService.Zip(archive, castorConfig, directory);
+                        continue;
                     }
+
+                    DirectoryInfo directory = new(folder);
+                    _zippingService.Zip(archive, castorConfig, directory);
                 }
             }
+
             if (castorConfig.Z2f || !Array.Exists(args, element => element == "--zip"))
             {
                 File.Delete($"{castorConfig.ArchiveName}.z2f");
                 File.Move(archiveName, $"{castorConfig.ArchiveName}.z2f");
             }
-
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Build succeeded.");
@@ -92,69 +94,15 @@ namespace Castor.Services
             else
             {
                 string[] directoryPath = Directory.GetCurrentDirectory().Split('\\');
-                archiveName = directoryPath[directoryPath.Length - 1];
+                archiveName = directoryPath[^1];
             }
 
-            CastorConfig newConfig = new()
-            {
-                ArchiveName = archiveName,
-                Version = "v0.0.1",
-                License = "unspecified",
-                Description = "This is a Zoo Tycoon 2 mod",
-                Z2f = true,
-                IncludeFolders = new List<string> {
-                    "ai",
-                    "awards",
-                    "biomes",
-                    "config",
-                    "effects",
-                    "entities",
-                    "lang",
-                    "locations",
-                    "maps",
-                    "materials",
-                    "photochall",
-                    "puzzles",
-                    "scenario",
-                    "scripts",
-                    "shared",
-                    "tourdata",
-                    "ui",
-                    "world",
-                    "xpinfo"
-                },
-                ExcludeFolders = new List<string> {
-                    "modules"
-                },
-                Dependencies = new List<string>
-                {
-
-                },
-                DevDependencies = new List<string>
-                {
-
-                }
-            };
-
-            string newJson = JToken.Parse(JsonSerializer.Serialize(newConfig)).ToString();
-            File.WriteAllText("castor.json", newJson);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("initialized a new castor project");
-            Console.ResetColor();
+            CastorConfig newConfig = _fileService.NewConfig(archiveName);
+            _fileService.CreateConfigFile(newConfig);
 
             if (!File.Exists(".gitignore"))
             {
-                Console.WriteLine("generating gitignore file");
-                using (var gitignore = File.Create(".gitignore")){ }
-
-                File.WriteAllText(
-                    ".gitignore",
-                    "# exclude file types\n*.zip\n*.z2f\n\n# exclude modules\nmodules/"
-                );
-
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("created gitignore file");
-                Console.ResetColor();
+                _fileService.CreateGitignoreFile();
             }
             else
             {
@@ -166,7 +114,27 @@ namespace Castor.Services
 
         public void Install(string[] args)
         {
-            throw new NotImplementedException();
+            if (args.Length > 1)
+            {
+                _installerService.InstallModule(args[1], true);
+            }
+            else
+            {
+                string castorConfigText = File.ReadAllText("castor.json");
+                CastorConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
+
+                if (castorConfig.DevDependencies.Count == 0)
+                    Environment.Exit(1);
+
+                foreach (var package in castorConfig.DevDependencies)
+                {
+                    _installerService.InstallModule(package);
+                }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("installed packages");
+                Console.ResetColor();
+            }
         }
 
         public void Version()

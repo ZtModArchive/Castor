@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Castor.Interfaces
+﻿namespace Castor.Interfaces
 {
     interface IInstallerService
     {
-        void InstallModule();
+        void InstallModule(string packageName, bool addToConfig = false);
     }
 }

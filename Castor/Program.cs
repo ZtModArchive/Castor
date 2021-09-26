@@ -13,15 +13,17 @@ namespace Castor
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            CastorApp app = serviceProvider.GetService<CastorApp>();
-            app.Run(args);
+            serviceProvider.GetService<CastorApp>();
+            CastorApp.Run(args);
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<CastorApp>();
-            services.AddScoped<IZippingService, ZippingService>();
             services.AddScoped<ICommandService, CommandService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IInstallerService, InstallerService>();
+            services.AddScoped<IZippingService, ZippingService>();
         }
     }
 }

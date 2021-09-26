@@ -11,7 +11,7 @@ namespace Castor
             _commandService = commandService;
         }
 
-        internal void Run(string[] args)
+        internal static void Run(string[] args)
         {
             if (args.Length > 0)
             {

@@ -10,7 +10,7 @@ namespace Castor.Services
         public void Zip(ZipArchive archive, ICastorConfig config, DirectoryInfo directoryInfo)
         {
             string[] directoryPath = Directory.GetCurrentDirectory().Split('\\');
-            string rootDirectory = directoryPath[directoryPath.Length - 1];
+            string rootDirectory = directoryPath[^1];
             string formattedPath = directoryInfo.FullName.Split(rootDirectory)[1].Remove(0, 1);
 
             var files = directoryInfo.GetFiles();
