@@ -42,7 +42,15 @@ namespace Castor.Services
                     Directory.Delete($"{guid}/modules");
 
                 Console.WriteLine($"installing package {packageName}");
-                CopyFilesRecursively($"{guid}", $"modules/{packageArgs[0]}/{packageArgs[1]}/{packageArgs[2].Replace('.', '-')}");
+
+                string[] subDirectories = Directory.GetDirectories($"{guid}");
+                string firstSubDir = "";
+                if (subDirectories.Length > 0)
+                {
+                    firstSubDir = subDirectories[0];
+                }
+
+                CopyFilesRecursively($"{guid}/{firstSubDir.Split('\\')[1]}", $"modules/{packageArgs[0]}/{packageArgs[1]}/{packageArgs[2].Replace('.', '-')}");
 
                 Console.WriteLine($"preparing cleanup for {guid}");
                 var directory = new DirectoryInfo($"{guid}") { Attributes = FileAttributes.Normal };

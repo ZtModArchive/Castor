@@ -193,8 +193,8 @@ namespace Castor.Services
 
         public Process ConsoleCommand(string arg)
         {
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
+            Process process = new();
+            ProcessStartInfo startInfo = new();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = $"/C {arg}";
