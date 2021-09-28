@@ -1,12 +1,9 @@
 ﻿using Castor.Interfaces;
 using Castor.Models;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Text.Json;
 
 namespace Castor.Services
@@ -173,17 +170,13 @@ namespace Castor.Services
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            File.Copy($"{baseDirectory}\\castor-serve-mod.z2f", "castor-serve-mod.z2f");
-
-            string command = $"\"{castorConfig.ZT2loc}\\zt.exe\" {baseDirectory}castor-serve-save.z2s";
             Console.WriteLine("preparing serve");
-            Console.WriteLine("loading Tiny Test Map...");
-            using (ConsoleCommand(command))
-            {
+            Console.WriteLine("loading Tiny Test Map");
+            string ZTprogram = $"\"{castorConfig.ZT2loc}\\zt.exe\"";
+            string ZTarg = $"{baseDirectory}castor-serve-save.z2s";
 
-            }
-
-            File.Delete("castor-serve-mod.z2f");
+            Console.WriteLine("watching Zoo Tycoon 2...");
+            ConsoleCommand(ZTprogram, ZTarg);
         }
 
         public void Version()
@@ -191,16 +184,29 @@ namespace Castor.Services
             Console.WriteLine("Castor v3.0.0-beta");
         }
 
-        public Process ConsoleCommand(string arg)
+        public void ConsoleCommand(string program, string arg)
         {
-            Process process = new();
-            ProcessStartInfo startInfo = new();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = $"/C {arg}";
-            process.StartInfo = startInfo;
-            process.Start();
-            return process;
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = program;
+                process.StartInfo.Arguments = arg;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    string line = process.StandardOutput.ReadLine();
+                    Console.WriteLine(line);
+                    // do something with line
+                }
+                process.WaitForExit();
+            }
+        }
+
+        void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine($"[{DateTime.Now}] {e.Data}");
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Castor.Interfaces
+﻿namespace Castor.Interfaces
 {
     interface ICommandService
     {
@@ -10,6 +8,6 @@ namespace Castor.Interfaces
         void Install(string[] args);
         void Version();
         void Serve(string[] args);
-        Process ConsoleCommand(string arg);
+        void ConsoleCommand(string program, string arg);
     }
 }
