@@ -168,7 +168,7 @@ namespace Castor.Services
             CastorConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
 
             string[] buildArgs = new string[1];
-            buildArgs[0] = "--root";
+            buildArgs[0] = "--ztroot";
             Build(buildArgs);
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
