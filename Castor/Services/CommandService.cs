@@ -60,7 +60,7 @@ namespace Castor.Services
             {
                 File.Delete($"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.zip");
                 File.Move(archiveName, $"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.zip");
-                if (castorConfig.Z2f || !Array.Exists(args, element => element == "--zip"))
+                if (castorConfig.Z2f && !Array.Exists(args, element => element == "--zip"))
                 {
                     File.Delete($"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.z2f");
                     File.Move($"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.zip", $"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.z2f");
