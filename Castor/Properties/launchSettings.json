@@ -2,7 +2,7 @@
   "profiles": {
     "Castor": {
       "commandName": "Project",
-      "commandLineArgs": "install",
+      "commandLineArgs": "serve",
       "workingDirectory": "C:\\Program Files (x86)\\Microsoft Games\\Zoo Tycoon 2\\ModTest",
       "remoteDebugEnabled": false
     }

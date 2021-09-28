@@ -28,6 +28,10 @@ namespace Castor
                     case "i":
                         _commandService.Install(args);
                         break;
+                    case "serve":
+                    case "s":
+                        _commandService.Serve(args);
+                        break;
                     case "version":
                     case "v":
                         _commandService.Version();

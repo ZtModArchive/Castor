@@ -40,9 +40,11 @@ namespace Castor.Services
             {
                 ArchiveName = archiveName,
                 Version = "v0.0.1",
-                License = "unspecified",
+                Author = "",
+                License = "",
                 Description = "This is a Zoo Tycoon 2 mod",
                 Z2f = true,
+                ZT2loc = @"C:\Program Files (x86)\Microsoft Games\Zoo Tycoon 2",
                 IncludeFolders = new List<string> {
                     "ai",
                     "awards",
