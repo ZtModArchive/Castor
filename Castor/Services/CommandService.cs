@@ -69,7 +69,7 @@ namespace Castor.Services
             }
             else
             {
-                if (castorConfig.Z2f || !Array.Exists(args, element => element == "--zip"))
+                if (castorConfig.Z2f && !Array.Exists(args, element => element == "--zip"))
                 {
                     File.Delete($"{castorConfig.ArchiveName}.z2f");
                     File.Move(archiveName, $"{castorConfig.ArchiveName}.z2f");

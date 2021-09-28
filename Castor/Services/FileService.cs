@@ -39,7 +39,9 @@ namespace Castor.Services
             return new CastorConfig()
             {
                 ArchiveName = archiveName,
+                RepoName = "GitHubAccount/Reponame",
                 Version = "v0.0.1",
+                Type = "mod",
                 Author = "",
                 License = "",
                 Description = "This is a Zoo Tycoon 2 mod",

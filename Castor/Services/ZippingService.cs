@@ -17,7 +17,11 @@ namespace Castor.Services
             foreach (var file in files)
             {
                 Console.WriteLine($"compressing {formattedPath}\\{file.Name}");
-                archive.CreateEntryFromFile(file.FullName, $"{formattedPath}\\{file.Name}");
+                if (config.Type == "module" || config.Type == "package")
+                {
+                    archive.CreateEntryFromFile(file.FullName, $"modules\\{config.RepoName}\\{formattedPath}\\{file.Name}");
+                }
+                    archive.CreateEntryFromFile(file.FullName, $"{formattedPath}\\{file.Name}");
             }
             var directories = directoryInfo.GetDirectories();
             bool exclude;
