@@ -194,12 +194,16 @@ namespace Castor.Services
                 process.StartInfo.UseShellExecute = false;
                 process.Start();
 
-                while (!process.StandardOutput.EndOfStream)
+                using (StreamWriter writer = new StreamWriter("castorlog.txt"))
                 {
-                    string line = process.StandardOutput.ReadLine();
-                    Console.WriteLine(line);
-                    // do something with line
+                    while (!process.StandardOutput.EndOfStream)
+                    {
+                        string line = process.StandardOutput.ReadLine();
+                        Console.WriteLine($"{line}");
+                        writer.WriteLine($"{line}");
+                    }
                 }
+                
                 process.WaitForExit();
             }
         }
