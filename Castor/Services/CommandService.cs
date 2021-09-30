@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Castor.Services
@@ -181,7 +182,7 @@ namespace Castor.Services
 
         public void Version()
         {
-            Console.WriteLine("Castor v3.0.0-beta");
+            Console.WriteLine($"Castor v{Assembly.GetExecutingAssembly().GetName().Version}");
         }
 
         public void ConsoleCommand(string program, string arg)
