@@ -8,7 +8,7 @@ namespace Castor.Test
         [Fact]
         public void Test1()
         {
-
+            // default test
         }
     }
 }
