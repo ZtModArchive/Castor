@@ -1,5 +1,5 @@
 # Castor
-[![Build Status](https://travis-ci.com/ZtModArchive/Castor.svg?branch=master)](https://travis-ci.com/ZtModArchive/Castor)
+[![Build Status](https://app.travis-ci.com/ZtModArchive/Castor.svg?branch=main)](https://app.travis-ci.com/ZtModArchive/Castor)
 
 Castor is a simple CLI for building z2f files.
 
