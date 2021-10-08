@@ -1,4 +1,6 @@
 # Castor
+
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/ZtModArchive/Castor/issues)
 [![Build Status](https://app.travis-ci.com/ZtModArchive/Castor.svg?branch=main)](https://app.travis-ci.com/ZtModArchive/Castor)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5acf441a439d4bbcbf06a66c67bb771a)](https://www.codacy.com/gh/ZtModArchive/Castor/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ZtModArchive/Castor&amp;utm_campaign=Badge_Grade)
 
