@@ -4,6 +4,6 @@ namespace Castor.Models
 {
     class CastorConfig : ICastorConfig
     {
-        
+
     }
 }
