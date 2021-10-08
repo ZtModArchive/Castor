@@ -22,7 +22,7 @@ namespace Castor.Services
         public void CreateGitignoreFile()
         {
             Console.WriteLine("generating gitignore file");
-            using (var gitignore = File.Create(".gitignore")) ;
+            using (File.Create(".gitignore")) ;
 
             File.WriteAllText(
                 ".gitignore",
