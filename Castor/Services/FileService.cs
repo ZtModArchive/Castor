@@ -36,7 +36,7 @@ namespace Castor.Services
 
         public CastorConfig NewConfig(string archiveName)
         {
-            return new CastorConfig()
+            return new CastorConfig
             {
                 ArchiveName = archiveName,
                 RepoName = "GitHubAccount/Reponame",

@@ -36,8 +36,6 @@ namespace Castor
                     case "v":
                         _commandService.Version();
                         break;
-                    case "help":
-                    case "h":
                     default:
                         _commandService.Help();
                         break;

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Castor
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
