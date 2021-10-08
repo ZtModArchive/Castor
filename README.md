@@ -5,7 +5,7 @@ Castor is a simple CLI for building z2f files.
 
 <img src="castor3-github-social-preview.png" alt="Arluq logo"/>
 
-# Commands
+## Commands
 
 * `castor init`
 * `castor build [--zip] [--ztroot]`
@@ -15,5 +15,5 @@ Castor is a simple CLI for building z2f files.
 * `castor help`
 * `castor version`
 
-# Installation
+## Installation
 Build the solution via `dotnet release`, or get it from the Github releases.
