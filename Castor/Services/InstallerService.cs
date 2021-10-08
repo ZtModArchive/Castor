@@ -27,46 +27,44 @@ namespace Castor.Services
                 }
             }
 
-            using (var client = new WebClient())
+            using var client = new WebClient();
+            Guid guid = Guid.NewGuid();
+            Console.WriteLine($"generated temporary GUID {guid} for package {packageName}");
+            string[] packageArgs = packageName.Split('/');
+            Console.WriteLine($"downloading package {packageName}");
+            client.DownloadFile($"https://github.com/{packageArgs[0]}/{packageArgs[1]}/archive/refs/tags/{packageArgs[2]}.zip", $"{guid}.zip");
+            Console.WriteLine($"extracting {packageName} to folder {guid}");
+            ZipFile.ExtractToDirectory($"{guid}.zip", $"{guid}");
+
+            // remove the package's modules folder if the dev didn't exclude it
+            if (Directory.Exists($"{guid}/modules"))
+                Directory.Delete($"{guid}/modules");
+
+            Console.WriteLine($"installing package {packageName}");
+
+            string[] subDirectories = Directory.GetDirectories($"{guid}");
+            string firstSubDir = "";
+            if (subDirectories.Length > 0)
             {
-                Guid guid = Guid.NewGuid();
-                Console.WriteLine($"generated temporary GUID {guid} for package {packageName}");
-                string[] packageArgs = packageName.Split('/');
-                Console.WriteLine($"downloading package {packageName}");
-                client.DownloadFile($"https://github.com/{packageArgs[0]}/{packageArgs[1]}/archive/refs/tags/{packageArgs[2]}.zip", $"{guid}.zip");
-                Console.WriteLine($"extracting {packageName} to folder {guid}");
-                ZipFile.ExtractToDirectory($"{guid}.zip", $"{guid}");
-
-                // remove the package's modules folder if the dev didn't exclude it
-                if (Directory.Exists($"{guid}/modules"))
-                    Directory.Delete($"{guid}/modules");
-
-                Console.WriteLine($"installing package {packageName}");
-
-                string[] subDirectories = Directory.GetDirectories($"{guid}");
-                string firstSubDir = "";
-                if (subDirectories.Length > 0)
-                {
-                    firstSubDir = subDirectories[0];
-                }
-
-                CopyFilesRecursively($"{guid}/{firstSubDir.Split('\\')[1]}", $"modules/{packageArgs[0]}/{packageArgs[1]}");
-
-                Console.WriteLine($"preparing cleanup for {guid}");
-                var directory = new DirectoryInfo($"{guid}") { Attributes = FileAttributes.Normal };
-                foreach (var info in directory.GetFileSystemInfos("*", SearchOption.AllDirectories))
-                {
-                    info.Attributes = FileAttributes.Normal;
-                }
-
-                Console.WriteLine($"cleaning temporary files: {guid}");
-                Directory.Delete($"{guid}", true);
-                File.Delete($"{guid}.zip");
-
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"installed package {packageName}");
-                Console.ResetColor();
+                firstSubDir = subDirectories[0];
             }
+
+            CopyFilesRecursively($"{guid}/{firstSubDir.Split('\\')[1]}", $"modules/{packageArgs[0]}/{packageArgs[1]}");
+
+            Console.WriteLine($"preparing cleanup for {guid}");
+            var directory = new DirectoryInfo($"{guid}") { Attributes = FileAttributes.Normal };
+            foreach (var info in directory.GetFileSystemInfos("*", SearchOption.AllDirectories))
+            {
+                info.Attributes = FileAttributes.Normal;
+            }
+
+            Console.WriteLine($"cleaning temporary files: {guid}");
+            Directory.Delete($"{guid}", true);
+            File.Delete($"{guid}.zip");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"installed package {packageName}");
+            Console.ResetColor();
         }
 
         private static void CopyFilesRecursively(string sourcePath, string targetPath)

@@ -187,31 +187,24 @@ namespace Castor.Services
 
         public void ConsoleCommand(string program, string arg)
         {
-            using (var process = new Process())
+            using var process = new Process();
+            process.StartInfo.FileName = program;
+            process.StartInfo.Arguments = arg;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            using (StreamWriter writer = new("castorlog.txt"))
             {
-                process.StartInfo.FileName = program;
-                process.StartInfo.Arguments = arg;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.UseShellExecute = false;
-                process.Start();
-
-                using (StreamWriter writer = new StreamWriter("castorlog.txt"))
+                while (!process.StandardOutput.EndOfStream)
                 {
-                    while (!process.StandardOutput.EndOfStream)
-                    {
-                        string line = process.StandardOutput.ReadLine();
-                        Console.WriteLine($"{line}");
-                        writer.WriteLine($"{line}");
-                    }
+                    string line = process.StandardOutput.ReadLine();
+                    Console.WriteLine($"{line}");
+                    writer.WriteLine($"{line}");
                 }
-
-                process.WaitForExit();
             }
-        }
 
-        void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Console.WriteLine($"[{DateTime.Now}] {e.Data}");
+            process.WaitForExit();
         }
     }
 }
