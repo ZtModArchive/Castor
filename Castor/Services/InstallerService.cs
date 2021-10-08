@@ -49,7 +49,7 @@ namespace Castor.Services
                 {
                     firstSubDir = subDirectories[0];
                 }
-                   
+
                 CopyFilesRecursively($"{guid}/{firstSubDir.Split('\\')[1]}", $"modules/{packageArgs[0]}/{packageArgs[1]}");
 
                 Console.WriteLine($"preparing cleanup for {guid}");

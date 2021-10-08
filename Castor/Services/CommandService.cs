@@ -54,7 +54,7 @@ namespace Castor.Services
                 }
             }
 
-            if (Array.Exists(args, element => element =="--ztroot"))
+            if (Array.Exists(args, element => element == "--ztroot"))
             {
                 File.Delete($"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.zip");
                 File.Move(archiveName, $"{castorConfig.ZT2loc}\\{castorConfig.ArchiveName}.zip");
@@ -204,7 +204,7 @@ namespace Castor.Services
                         writer.WriteLine($"{line}");
                     }
                 }
-                
+
                 process.WaitForExit();
             }
         }
