@@ -6,7 +6,7 @@
 
 Castor is a simple CLI for building z2f files.
 
-<img src="castor3-github-social-preview.png" alt="Arluq logo"/>
+<img src="castor-github-social-preview.png" alt="Castor logo"/>
 
 ## Commands
 
