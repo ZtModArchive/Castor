@@ -1,7 +1,10 @@
 ﻿using Castor.Interfaces;
-using Castor.Models;
+using Castoreum.Config.Models;
+using Castoreum.Interface.Service.Compression;
+using Castoreum.Interface.Service.Config;
+using Castoreum.Interface.Service.Installation;
+using Castoreum.Interface.Service.Watch;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
@@ -11,14 +14,21 @@ namespace Castor.Services
 {
     class CommandService : ICommandService
     {
-        private static IFileService _fileService;
-        private static IInstallerService _installerService;
-        private static IZippingService _zippingService;
-        public CommandService(IFileService fileService, IInstallerService installerService, IZippingService zippingService)
+        private static ICompressionManager _compressionManager;
+        private static IConfigManager _configManager;
+        private static IInstallationManager _installationManager;
+        private static IProcessWatcher _processWatcher;
+        public CommandService(
+            ICompressionManager compressionManager,
+            IConfigManager configManager,
+            IInstallationManager installationManager,
+            IProcessWatcher processWatcher
+        )
         {
-            _fileService = fileService;
-            _installerService = installerService;
-            _zippingService = zippingService;
+            _compressionManager = compressionManager;
+            _configManager = configManager;
+            _installationManager = installationManager;
+            _processWatcher = processWatcher;
         }
 
         public void Build(string[] args)
@@ -33,7 +43,7 @@ namespace Castor.Services
             }
 
             string castorConfigText = File.ReadAllText("castor.json");
-            CastorConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
+            IConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
 
             string archiveName = $"{castorConfig.ArchiveName}.zip";
 
@@ -50,7 +60,7 @@ namespace Castor.Services
                     }
 
                     DirectoryInfo directory = new(folder);
-                    _zippingService.Zip(archive, castorConfig, directory);
+                    _compressionManager.BuildMod(archive, castorConfig, directory);
                 }
             }
 
@@ -111,12 +121,12 @@ namespace Castor.Services
                 archiveName = directoryPath[^1];
             }
 
-            CastorConfig newConfig = _fileService.NewConfig(archiveName);
-            _fileService.CreateConfigFile(newConfig);
+            IConfig newConfig = _configManager.CreateConfigFile(archiveName);
+            _configManager.PlaceConfigFile(newConfig, "castor.json");
 
             if (!File.Exists(".gitignore"))
             {
-                _fileService.CreateGitignoreFile();
+                _configManager.PlaceGitIgnore("");
             }
             else
             {
@@ -128,21 +138,34 @@ namespace Castor.Services
 
         public void Install(string[] args)
         {
+            string castorConfigText = File.ReadAllText("castor.json");
+            IConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
             if (args.Length > 1)
             {
-                _installerService.InstallModule(args[1], true);
+                if (args.Length > 2)
+                {
+                    if (args[2] == "--dev")
+                        castorConfig = _installationManager.InstallDevDependency(castorConfig, args[1]);
+                }
+                else
+                {
+                    castorConfig = _installationManager.InstallDependency(castorConfig, args[1]);
+                }
+
+                _configManager.PlaceConfigFile(castorConfig, "castor.json");
             }
             else
             {
-                string castorConfigText = File.ReadAllText("castor.json");
-                CastorConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
-
-                if (castorConfig.DevDependencies.Count == 0)
-                    Environment.Exit(1);
+                foreach (var package in castorConfig.Dependencies)
+                {
+                    Console.WriteLine($"installing package {package}");
+                    _installationManager.InstallPackage(package);
+                }
 
                 foreach (var package in castorConfig.DevDependencies)
                 {
-                    _installerService.InstallModule(package);
+                    Console.WriteLine($"installing package {package}");
+                    _installationManager.InstallPackage(package);
                 }
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -163,7 +186,7 @@ namespace Castor.Services
             }
 
             string castorConfigText = File.ReadAllText("castor.json");
-            CastorConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
+            IConfig castorConfig = JsonSerializer.Deserialize<CastorConfig>(castorConfigText);
 
             string[] buildArgs = new string[1];
             buildArgs[0] = "--ztroot";
@@ -177,34 +200,12 @@ namespace Castor.Services
             string ZTarg = $"{baseDirectory}castor-serve-save.z2s";
 
             Console.WriteLine("watching Zoo Tycoon 2...");
-            ConsoleCommand(ZTprogram, ZTarg);
+            _processWatcher.Watch(ZTprogram, ZTarg);
         }
 
         public void Version()
         {
             Console.WriteLine($"Castor v{Assembly.GetExecutingAssembly().GetName().Version}");
-        }
-
-        public void ConsoleCommand(string program, string arg)
-        {
-            using var process = new Process();
-            process.StartInfo.FileName = program;
-            process.StartInfo.Arguments = arg;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.UseShellExecute = false;
-            process.Start();
-
-            using (StreamWriter writer = new("castorlog.txt"))
-            {
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    string line = process.StandardOutput.ReadLine();
-                    Console.WriteLine($"{line}");
-                    writer.WriteLine($"{line}");
-                }
-            }
-
-            process.WaitForExit();
         }
     }
 }
