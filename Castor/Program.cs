@@ -1,5 +1,14 @@
 ﻿using Castor.Interfaces;
 using Castor.Services;
+using Castoreum.Compression;
+using Castoreum.Config.Models;
+using Castoreum.Config.Service;
+using Castoreum.Installation;
+using Castoreum.Interface.Service.Compression;
+using Castoreum.Interface.Service.Config;
+using Castoreum.Interface.Service.Installation;
+using Castoreum.Interface.Service.Watch;
+using Castoreum.Watch;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Castor
@@ -21,9 +30,11 @@ namespace Castor
         {
             services.AddTransient<CastorApp>();
             services.AddScoped<ICommandService, CommandService>();
-            services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IInstallerService, InstallerService>();
-            services.AddScoped<IZippingService, ZippingService>();
+            services.AddScoped<ICompressionManager, CompressionManager>();
+            services.AddScoped<IConfig, CastorConfig>();
+            services.AddScoped<IConfigManager, ConfigManager>();
+            services.AddScoped<IInstallationManager, InstallationManager>();
+            services.AddScoped<IProcessWatcher, ProcessWatcher>();
         }
     }
 }
