@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Castor", "Castor\Castor.csproj", "{C0816039-0579-4748-8139-47921C13AC7A}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Castor.Test", "Castor.Test\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07396B24-5DF6-4C18-B663-C130A43C9256}"
 	ProjectSection(SolutionItems) = preProject
-		.travis.yml = .travis.yml
+		.github\workflows\github-actions.yml = .github\workflows\github-actions.yml
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{BD5FA7F9-B269-4E58-A6C2-03D02E24D988}"
