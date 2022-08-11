@@ -23,6 +23,6 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Format
-        run: dotnet dotnet-format --check
+        run: dotnet format --check
       - name: Publish
         run: dotnet publish
