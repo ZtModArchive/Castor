@@ -1,7 +1,14 @@
 ﻿name: GitHub Actions
-on: [push, fork, pull_request]
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
