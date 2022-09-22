@@ -9,8 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Castor.Test", "Castor.Test\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07396B24-5DF6-4C18-B663-C130A43C9256}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\github-actions.yml = .github\workflows\github-actions.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\github-release.yml = .github\workflows\github-release.yml
 		LICENSE = LICENSE
+		.github\workflows\nuget-release.yml = .github\workflows\nuget-release.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
