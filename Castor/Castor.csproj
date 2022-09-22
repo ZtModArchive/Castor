@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,10 +7,10 @@
     <Company>ZtModArchive</Company>
     <Copyright>MIT License</Copyright>
     <Version>4.1.0</Version>
-    <PackageProjectUrl>https://github.com/ZtModArchive/Castor/tree/main/Castor</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ZtModArchive/Castor</PackageProjectUrl>
     <PackageIcon>castor-icon.png</PackageIcon>
     <PackageIconUrl />
-    <RepositoryUrl>https://github.com/ZtModArchive/Castor/tree/main/Castor</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ZtModArchive/Castor</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <SignAssembly>false</SignAssembly>
     <AssemblyVersion>4.1.0.0</AssemblyVersion>
