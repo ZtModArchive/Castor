@@ -6,7 +6,7 @@
     <ApplicationIcon>castor-icon.ico</ApplicationIcon>
     <Company>ZtModArchive</Company>
     <Copyright>MIT License</Copyright>
-    <Version>4.1.0</Version>
+    <Version>4.2.0</Version>
     <PackageProjectUrl>https://github.com/ZtModArchive/Castor</PackageProjectUrl>
     <PackageIcon>castor-icon.png</PackageIcon>
     <PackageIconUrl />
@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Castoreum.Compression" Version="2.0.0" />
-    <PackageReference Include="Castoreum.Config" Version="2.0.0" />
+    <PackageReference Include="Castoreum.Compression" Version="2.0.1" />
+    <PackageReference Include="Castoreum.Config" Version="2.0.1" />
     <PackageReference Include="Castoreum.Installation" Version="2.0.0" />
     <PackageReference Include="Castoreum.Interface" Version="2.0.0" />
     <PackageReference Include="Castoreum.Watch" Version="2.0.0" />
