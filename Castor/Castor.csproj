@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/ZtModArchive/Castor</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <SignAssembly>false</SignAssembly>
-    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion></AssemblyVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackAsTool>True</PackAsTool>
   </PropertyGroup>
