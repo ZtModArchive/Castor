@@ -19,4 +19,4 @@ Castor is a simple CLI for building z2f files.
 *   `castor version`
 
 ## Installation
-Build the solution via `dotnet publish`, or get it from the Github releases.
+Build the solution via `dotnet publish`, or get it from [NuGet](https://www.nuget.org/packages/Castor/) the Github releases.
